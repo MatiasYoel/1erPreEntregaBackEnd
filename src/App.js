@@ -11,17 +11,17 @@ app.get('/products', async (req, res) => {
 
     let { limit } = req.query
 
-    if (!limit) return res.send({ products })
-    if (isNaN(Number(limit))) return res.send({ status: 'error', message: 'Limite Invalido' })
+    if (!limit) return res.status(200).send({ products })
+    if (isNaN(Number(limit))) return res.status(400).send({ status: 'error', message: 'Limite Invalido' })
     limit = Number(limit)
 
     const products = await prodmanag.getProducts();
 
     if (products.length > limit) {
         const limitProduct = products.slice(0, limit)
-        return res.send({ limitProduct });
+        return res.status(200).send({ limitProduct });
     }
-    return res.send({ products });
+    return res.status(200).send({ products });
 
 })
 
