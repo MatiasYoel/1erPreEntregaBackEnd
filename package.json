@@ -1,0 +1,26 @@
+{
+  "name": "entrega",
+  "version": "1.0.0",
+  "main": "ProductManager.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./src/App.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MatiasYoel/1erPreEntregaBackEnd.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/MatiasYoel/1erPreEntregaBackEnd/issues"
+  },
+  "homepage": "https://github.com/MatiasYoel/1erPreEntregaBackEnd#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22"
+  },
+  "description": ""
+}
