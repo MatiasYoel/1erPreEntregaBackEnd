@@ -1,0 +1,37 @@
+<h1 class="text-center">Tienda Tu Pilcha</h1>
+<div class="row mt-4">
+    {{#each valueReturned }}
+    <div class="card bg-primary mb-5 ms-5 mx-4 text-bg-primary " style="max-width: 20rem;">
+        
+        <div class="card-body ">
+            <h4 class=" text-center">{{this.title}}</h4>
+            <p class="card-text">
+                <li>
+                    Id: {{this._id}}
+                </li>
+                <li>
+                    Descripcion: {{this.description}}
+                </li>
+                <li>
+                    Precio: ${{this.price}}
+                </li>
+                <li>
+                    Categoria: {{this.category}}
+                </li>
+                <li>
+                    Status: {{this.status}}
+                </li>
+                <li>
+                    Stock: {{this.stock}}
+                </li>
+                <img class="img-fluid" src="{{this.thumbnails}}">
+                
+                </img>
+            </p>
+        </div class=" text-bg-primary">
+        <div>Codigo: {{this.code}}</div>
+    </div>
+
+
+    {{/each}}
+</div>
