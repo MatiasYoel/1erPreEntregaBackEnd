@@ -1,69 +1,57 @@
-<div class="container m-auto p-4">
-    <nav class="d-flex justify-content-between">
-        <div class="title d-flex ">
-            <h1>Products</h1>
-            
-        </div>
-        <div class="m-auto"><h2>Bienvenido: {{user.name}} ({{user.role}})</h2></div>
-        <div class="cart d-flex p-0 mt-2 gap-4 ">
-            
-            <img src="./img/cart.svg" alt="cart" class="img-fluid">
+<div class="container">
+    <header class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <div class="title text-center text-md-start">
+    </div>
+    <div class="m-auto"><h2>Bienvenido: {{user.name}} ({{user.role}})</h2></div>
+    <div class="cart d-flex flex-column flex-md-row p-0 mt-2 mt-md-0 gap-4 text-center">
+        <img src="./img/cart.svg" alt="cart" class="img-fluid m-auto m-md-0">
+        <button type="button" class="btn btn-primary m-auto m-md-0" data-bs-toggle="modal" data-bs-target="#modalCart">
+            Tu Carrito
+        </button>
+        <button type="button" class="btn btn-info m-auto m-md-0" id="cartFinal">
+            Comprar Carrito
+        </button>
+        <div class="modal fade" id="modalCart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Carrito</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modalBody">
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCart">
-                View Cart
-            </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="modalCart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Cart</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="modalBody">
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
-
-            <button type="button" class="btn btn-info" id="cartFinal">
-                Buy Cart
-            </button>
-            <button type="button" class="btn btn-warning" id="logout">
-                Logout
-            </button>
-            <a href="/profile" class="btn btn-secondary text-primary">
-                Profile
-            </a>
         </div>
-    </nav>
+    </div>
+</header>
+
 
     <div class="row mt-4">
         {{#each products }}
         <div class="card bg-secondary mb-3 mx-4 my-4" style="max-width: 20rem;">
-            <div class="card-header">code: {{this.code}}</div>
+            <div class="card-header">Codigo: {{this.code}}</div>
             <div class="card-body">
                 <h4 class="card-title">{{this.title}}</h4>
                 <p class="card-text">
                     <li>
-                        description: {{this.description}}
+                        Descripcion: {{this.description}}
                     </li>
                     <li>
-                        price: ${{this.price}}
+                        Precio: ${{this.price}}
                     </li>
                     <li>
-                        category: {{this.category}}
+                        Categoria: {{this.category}}
                     </li>
                     <li>
-                        status: {{this.status}}
+                        Estado: {{this.status}}
                     </li>
                     <li>
-                        stock: {{this.stock}}
+                        Stock: {{this.stock}}
                     </li>
                     <li>
                         thumbnail: <img src="{{this.thumbnails}}" alt="" width="120" height="80">
@@ -90,7 +78,7 @@
 
         <a class="btn btn-primary px-5" href="{{nextLink}}">next</a>
 
-        <h3>Page: {{page}}/{{totalPages}}</h3>
+        <h3>Pagina: {{page}}/{{totalPages}}</h3>
         {{/if}}
     </div>
 

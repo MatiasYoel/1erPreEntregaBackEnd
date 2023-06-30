@@ -1,37 +1,30 @@
-<h1>PRODUCTS</h1>
+<style>
+    .text__register {
+        color: rgb(127, 127, 255);
+    }
 
-<div class="row mt-4">
-    {{#each valueReturned }}
-    <div class="card bg-secondary mb-3 mx-4 my-4" style="max-width: 20rem;">
-        <div class="card-header">code: {{this.code}}</div>
-        <div class="card-body">
-            <h4 class="card-title">{{this.title}}</h4>
-            <p class="card-text">
-                <li>
-                    id: {{this._id}}
-                </li>
-                <li>
-                    description: {{this.description}}
-                </li>
-                <li>
-                    price: ${{this.price}}
-                </li>
-                <li>
-                    category: {{this.category}}
-                </li>
-                <li>
-                    status: {{this.status}}
-                </li>
-                <li>
-                    stock: {{this.stock}}
-                </li>
-                <li>
-                    thumbnail: <img src="{{this.thumbnails}}" alt="" width="120" height="80">
-                </li>
-            </p>
+    .text__register:hover {
+        transition-duration: 0.3s;
+        color: white;
+    }
+</style>
+
+<div class="vh-100" style="background-image: url('img/background.jpg'); background-size: cover;">
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+        <div class="row align-items-center g-lg-5 py-5 m-5 " style="background-color: rgba(36, 33, 33, 0.5);">
+            <div class="col-lg-7 text-center text-lg-start">
+                <p class="col-lg-10 fs-4 text-white">"Tu Pilcha" es una tienda de ropa moderna y vibrante que atiende a personas que aprecian estilos únicos y vanguardistas. Ubicada en una bulliciosa área urbana, la tienda emana un ambiente acogedor y enérgico, atrayendo a entusiastas de la moda de todas las edades.</p>
+            </div>
+            {{#if isLoggedIn}}
+            <h1 class="text-danger col-lg-3 text-center bg-dark m-auto py-2">Ya estas logueado!</h1>
+            {{else}}
+            <div class="col-md-10 mx-auto col-lg-5">
+                {{> formLogin}}
+            </div>
+            {{/if}}
+
         </div>
     </div>
 
-
-    {{/each}}
 </div>
+
