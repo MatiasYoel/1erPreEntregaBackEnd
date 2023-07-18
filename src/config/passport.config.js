@@ -1,0 +1,179 @@
+import passport from 'passport';
+import local from 'passport-local';
+import GitHubStrategy from 'passport-github2'
+
+import { createHash, isValidPassword } from '../utils.js';
+import { cookieExtractor } from '../middleware/auth.js'
+
+import { Strategy, ExtractJwt } from 'passport-jwt';
+import { usersService } from '../DAO/mongo/managers/index.js';
+import { cartService } from '../services/index.js';
+import config from './config.js';
+
+const localStrategy = local.Strategy
+
+
+export const initializePassport = () => {
+    passport.use('register', new localStrategy(
+        { passReqToCallback: true, usernameField: 'email' }, async (req, emailUser, password, done) => {
+            const { first_name, last_name, email, age } = req.body;
+
+            try {
+                const user = await usersService.getUsersByEmail(emailUser)
+                if (user) {
+
+                    return done(null, false, { message: 'User already exists' });
+                }
+
+                const newUser = {
+                    first_name,
+                    last_name,
+                    email,
+                    age,
+                    password: createHash(password),
+                }
+
+                const checkUser = Object.values(newUser).every(property => property)
+                if (!checkUser) return res.send({ status: 'error', message: 'Usuario Incompleto' })
+
+                const result = await usersService.createUser(newUser);
+
+                return done(null, result);
+            } catch (error) {
+                return done(error);
+            }
+        }
+    ))
+
+    passport.use(
+        'login',
+        new localStrategy(
+            { usernameField: 'email' },
+
+            async (email, password, done) => {
+                let resultUser;
+                try {
+                    if (email === config.adminName && password === config.adminPassword) {
+                        resultUser = {
+                            first_name: 'Admin',
+                            last_name: 'Coder',
+                            email: 'admin@coder.com',
+                            age: 25,
+
+                            role: 'admin'
+                        }
+                        return done(null, resultUser);
+
+                    }
+                    const userDB = await usersService.validateUser(email)
+
+
+                    if (!userDB) return done(null, false, { status: 'error', message: 'Usuario no encontrado, intente nuevamente.' })
+
+                    if (!isValidPassword(userDB, password)) return done(null, false, { status: 'error', message: 'Contraseña Incorrecta' })
+
+                    delete userDB.password
+                    let existsCart = await cartService.getCartsByUserService(userDB._id)
+                    
+                    async function handleCart() {
+                        let newUserCart;
+                        if (existsCart.length === 0) {
+                            existsCart = await cartService.addCartService({ userId: userDB._id, products: [] });
+                            let newCart = await usersService.addCart({userId: userDB._id, cartId: existsCart._id});
+                            console.log(newCart, 'Nuevo Carrito');
+                            newUserCart = newCart.carts[0];
+                        }
+           
+                        return newUserCart; 
+                    }
+                    console.log(existsCart, 'Esta en Carrito');
+                    let cart = existsCart[0] ? existsCart[0]._id : await handleCart();
+                    console.log(cart);
+                    const user = {
+                        id: userDB._id,
+                        first_name: userDB.first_name,
+                        last_name: userDB.last_name,
+                        email: userDB.email,
+                        role: userDB.role,
+                        cart
+                    }
+                    console.log(user, 'Usuario')
+                    
+                    return done(null, user, { status: 'success', message: 'Usuario Logueado' })
+                } catch (error) {
+                    return done(error)
+                }
+
+
+            }
+        )
+    );
+
+    passport.use('github', new GitHubStrategy({
+        clientID: config.gitHubClientId,
+        clientSecret: config.gitHubClientSecret,
+        callbackURL: config.callbackURL
+
+
+    }, async (accessToken, refreshToken, profile, done) => {
+        try {
+
+            let emailGitHub = `${profile._json.login}@github.com`
+            let user = await usersService.getUsersByEmail(emailGitHub);
+
+            
+            if (!user) {
+                
+                let userGitHub = {
+                    first_name: profile._json.login,
+                    last_name: profile._json.node_id,
+                    email: emailGitHub,
+                    age: 20,
+                    password: ''
+                }
+                const result = await usersService.createUser(userGitHub);
+                let existsCart = await cartService.getCartsByUserService(result._id)
+                
+                if (existsCart.length === 0) {
+                    let newCart = await cartService.addCartService({ userId: result._id, products: [] })
+                    const addCartUser = await usersService.addCart({userId: result._id, cartId: newCart._id})
+                    
+                    return done(null, addCartUser);
+                }
+
+                return done(null, result);
+            }
+            else {
+                done(null, user);
+            }
+
+        } catch (error) {
+            return done(error);
+        }
+    }
+    ))
+
+    passport.use('jwt', new Strategy(
+        {
+            jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+            secretOrKey: config.privateKey,
+
+        }, async (payload, done) => {
+            try {
+
+                return done(null, payload);
+            } catch (error) {
+                return done(error)
+            }
+        }
+    ))
+}
+
+
+
+
+
+export default {
+    initializePassport,
+
+};
