@@ -233,6 +233,20 @@ const getAllTicketView = (req, res) => {
     }
 }
 
+const getAdminView = (req, res) => {
+    try {
+        
+        const logged = Object.values(req.user).every(property => property)
+        return res.render('admin', {isLoggedIn: logged});
+    } catch (error) {
+        return res.sendInternalError(error)
+    }
+}
+
+const forbiddenView = (req, res) => {
+    res.render('forbidden');
+}
+
 export default {
     getIndexView,
     getCartsView,
@@ -245,5 +259,7 @@ export default {
     getRegisterView,
     getProfileView,
     getTicketView,
-    getAllTicketView
+    getAllTicketView,
+    getAdminView,
+    forbiddenView
 }

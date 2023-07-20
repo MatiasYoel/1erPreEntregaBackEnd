@@ -1,11 +1,10 @@
-// fetch('api/cart')
+
 const cartId = document.querySelector('.card-header').id;
 const cardBody = document.querySelector('.card-body')
 const totalBuy = document.getElementById('totalBuy')
 const btnPurchaseCart = document.getElementById('btnPurchaseCart')
 const idBtns = document.querySelectorAll('.btn-danger')
-console.log(idBtns);
-console.log(btnPurchaseCart);
+
 let productsFront = '';
 let total = 0;
 

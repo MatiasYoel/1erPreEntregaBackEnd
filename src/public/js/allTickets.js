@@ -1,9 +1,5 @@
 const divTickets = document.getElementById('divTickets');
 const uid = document.querySelector('.card-header').id;
-// console.log(uid);
-// const date = new Date();
-// const formattedDate = date.toLocaleString('es-AR', { hour12: false });
-// console.log(formattedDate);
 
 const formatDate = (dateTime) => {
     let date = new Date(dateTime);
@@ -21,8 +17,6 @@ const getTickets = async () => {
         let tickets = ''
         if (data.payload.length > 0) {
             for (let ticket of data.payload) {
-                // console.log(ticket);
-                // console.log(ticket.purchase_time);
                 let purchase_time = formatDate(ticket.purchase_time)
 
                 tickets += `<div class="card my-2">

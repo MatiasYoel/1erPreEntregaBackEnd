@@ -43,7 +43,7 @@ const postTicketController = async (req, res) => {
             cart : cid,
             ...ticketBody
         }
-        console.log(uid, cid);
+        
         return res.sendSuccess(ticket)
 
     } catch (error) {

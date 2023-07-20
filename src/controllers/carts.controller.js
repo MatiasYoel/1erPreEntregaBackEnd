@@ -21,11 +21,7 @@ const getCartId = async (req, res) => {
 
         const result = await cartService.getCartByIdService(cid)
         console.log(result);
-        // Si el resultado del GET tiene la propiedad 'CastError' devuelve un error
         if (result === null || typeof (result) === 'string') return res.status(404).send({ status: 'error', message: 'ID no encontrado' });
-
-
-        // Resultado
         return res.sendSuccessWithPayload(result);
     } catch (error) {
         return res.sendInternalError(error)

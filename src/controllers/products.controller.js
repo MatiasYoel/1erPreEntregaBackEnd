@@ -1,4 +1,4 @@
-// import { productService } from '../DAO/mongo/managers/index.js';
+
 import { productService } from '../services/index.js';
 
 const getProducts = async (req, res) => {
@@ -6,7 +6,20 @@ const getProducts = async (req, res) => {
         let { limit, page, sort, category } = req.query
         console.log(req.query);
         
+        if (filterStock) {
+            try {
+                
+                const products = await productService.getProductsViewService()
+                
+                const filterByStock = products.filter(product => product.stock <= Number(filterStock))
+                
+                return res.sendSuccessWithPayload(filterByStock);
+            } catch (error) {
+                console.log(error);
+                return res.sendInternalError(error);
+            }
 
+        }
         const options = {
             page: Number(page) || 1,
             limit: Number(limit) || 10,

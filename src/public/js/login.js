@@ -6,6 +6,10 @@ const registerBtn = document.getElementById('register');
 loginForm.addEventListener('submit', event => {
     event.preventDefault();
     
+    const actions = {
+        'user': () => window.location.replace('/products'),
+        'ADMIN': () => window.location.replace('/admin'), 
+    };
     const user = Object.fromEntries(new FormData(event.target))
 
     try {
@@ -22,7 +26,7 @@ loginForm.addEventListener('submit', event => {
                 }
                 else{
                     Swal.fire({
-                        title: 'Login failed, please check your username and password',
+                        title: 'Fallo al Loggear, corrobora tu usuario y contraseña',
                         icon: 'warning'
                     })
                 }

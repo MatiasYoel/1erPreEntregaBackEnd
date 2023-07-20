@@ -97,21 +97,6 @@ btnCartFinal.addEventListener('click', () => {
                     // console.log(data);
                     if (data.payload.products.length > 0) {
                         window.location.href = '/ticket'
-                        // fetch('/products', {
-                        //     method: 'POST',
-                        //     headers: {
-                        //         'Content-Type': 'application/json',
-                        //     },
-                        //     body: JSON.stringify({ finishBuy: true}),
-                        // }).then(
-                        //     Swal.fire({
-                        //         title: 'Completed purchase!',
-                        //         icon: 'success'
-                        //     }
-                        //     )
-                        // ).then(
-                        //     modalBody.innerHTML = `<h3> Empty cart </h3>`
-                        // )
                     }
                     else {
                         Swal.fire({

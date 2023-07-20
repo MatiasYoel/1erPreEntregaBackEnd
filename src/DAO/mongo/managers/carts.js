@@ -9,6 +9,7 @@ class CartManager {
             return await cartModel.find()
         } catch (err) {
             console.log(err);
+            return err
         }
     };
 
@@ -43,9 +44,10 @@ class CartManager {
     }
 
     addProductInCart = async (cid, productFromBody) => {
+        
         try {
             const cart = await cartModel.findOne({ _id: cid })
-            console.log(cart, 'cartnull');
+            
             const findProduct = cart.products.some(
                 (product) => product._id._id.toString() === productFromBody._id)
 
@@ -118,6 +120,7 @@ class CartManager {
             return error
         }
     }
+
 
 };
 
