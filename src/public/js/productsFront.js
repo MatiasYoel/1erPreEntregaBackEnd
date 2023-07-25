@@ -6,11 +6,12 @@ const modalFooter = document.getElementById('modalFooter');
 
 const arrayProducts = Array.from(products);
 
+
 const productsInCart = () => {
     fetch('/products/inCart')
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            
             if (data.cartLength > 0) {
                 let products = ''
                 let total = 0
@@ -44,7 +45,7 @@ arrayProducts.forEach(product => {
             confirmButtonText: 'Confirm',
         }).then(response => {
 
-            if (stock > Number(response.value) && Number(response.value) > 0) {
+            if (stock >= Number(response.value) && Number(response.value) > 0) {
                 Swal.fire({
                     title: 'Product added successfully',
                     text: `ID: ${product.id} - Quantity: ${response.value}`,
@@ -57,9 +58,9 @@ arrayProducts.forEach(product => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({ product: { _id: product.id, quantity: Number(response.value) } }),
-                })
+                }).then(() =>productsInCart())
 
-                productsInCart()
+                
 
             }
             else if (Number(response.value) < 0) {
@@ -92,9 +93,8 @@ btnCartFinal.addEventListener('click', () => {
         if (response.isConfirmed) {
             fetch('api/carts/usercarts')
                 .then(response => response.json())
-                .then(data => {
-                    console.log('data', data.payload);
-                    // console.log(data);
+                .then(data => {                    
+                    
                     if (data.payload.products.length > 0) {
                         window.location.href = '/ticket'
                     }
@@ -106,6 +106,9 @@ btnCartFinal.addEventListener('click', () => {
                         })
                     }
                 })
+                .then(() =>productsInCart())
+                .catch(error => console.log(error))
+
         }
         else {
             Swal.fire({
@@ -121,5 +124,6 @@ btnCartFinal.addEventListener('click', () => {
 
 
 productsInCart()
+
 
 

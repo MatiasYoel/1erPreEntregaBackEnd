@@ -1,5 +1,7 @@
 const btnLogout = document.getElementById('logout')
 
+// const ticketsView = document.getElementById('tickets');
+
 const productsPage = document.getElementById('productsPage')
 
 const ticketsPurchases = document.getElementById('ticketsPurchases');
@@ -24,7 +26,7 @@ ticketsPurchases.addEventListener('click', () => {
     } catch (error) {
         console.log(error);
     }
-}) 
+})
 
 try {
     btnLogout.addEventListener('click', () => {
@@ -59,3 +61,7 @@ try {
     console.error(error);
 }
 
+
+// ticketsView.addEventListener('click', () => {
+//     window.location.href = '/allTickets'
+// })

@@ -22,6 +22,7 @@ export const initializePassport = () => {
 
             try {
                 const user = await usersService.getUsersByEmail(emailUser)
+                // let user = await userManager.getUsersByEmail(username);
                 if (user) {
 
                     return done(null, false, { message: 'User already exists' });
@@ -38,7 +39,7 @@ export const initializePassport = () => {
                 
 
                 const checkUser = Object.values(newUser).every(property => property)
-                if (!checkUser) return res.send({ status: 'error', message: 'Usuario Incompleto' })
+                if (!checkUser) return res.send({ status: 'error', message: 'User Incomplete' })
 
                 const result = await usersService.createUser(newUser);
 
@@ -64,6 +65,7 @@ export const initializePassport = () => {
                                 last_name: 'coder',
                                 email: 'adminCoder@coder.com',
                                 age: 100,
+
                                 role: 'ADMIN'
                             }
                         )
@@ -169,7 +171,7 @@ export const initializePassport = () => {
     passport.use('jwt', new Strategy(
         {
             jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
-            secretOrKey: config.privateKey, 
+            secretOrKey: config.privateKey, // CAMBIAR LUEGO
 
         }, async (payload, done) => {
             try {
@@ -181,6 +183,10 @@ export const initializePassport = () => {
         }
     ))
 }
+
+
+
+
 
 export default {
     initializePassport,

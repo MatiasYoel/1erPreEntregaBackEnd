@@ -1,11 +1,11 @@
-
+// import { productService } from '../DAO/mongo/managers/index.js';
 import { productService } from '../services/index.js';
 
 const getProducts = async (req, res) => {
     try {
-        let { limit, page, sort, category } = req.query
-        console.log(req.query);
+        let { limit, page, sort, category, filterStock } = req.query
         
+
         if (filterStock) {
             try {
                 
@@ -20,6 +20,7 @@ const getProducts = async (req, res) => {
             }
 
         }
+
         const options = {
             page: Number(page) || 1,
             limit: Number(limit) || 10,
@@ -50,6 +51,7 @@ const getProducts = async (req, res) => {
 
         }
 
+        // Devuelve un array con las categorias disponibles y compara con la query "category"
         const categories = await productService.categoriesService()
 
         const result = categories.some(categ => categ === category)
@@ -62,7 +64,7 @@ const getProducts = async (req, res) => {
         }
 
         const products = await productService.getProductsService({}, options);
-        
+
         const { totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, docs } = products
         const { prevLink, nextLink } = links(products);
         return res.status(200).send({ status: 'success', payload: docs, totalPages, prevPage, nextPage, hasNextPage, hasPrevPage, prevLink, nextLink });
@@ -77,10 +79,13 @@ const getProductId = async (req, res) => {
     try {
         const { pid } = req.params
 
+        // Se devuelve el resultado
         const result = await productService.getProductByIdService(pid)
 
+        // En caso de que traiga por error en el ID de product
         if (result === null || typeof (result) === 'string') return res.status(404).send({ status: 'error', message: `The ID product: ${pid} not found` })
 
+        // Resultado
         return res.status(200).send(result);
 
     } catch (err) {
@@ -108,7 +113,7 @@ const postProduct = async (req, res) => {
 
         if (!checkProduct) return res
             .status(400)
-            .send({ status: 'error', message: "El Producto no cumple con todas las propiedades" });
+            .send({ status: 'error', message: "The product doesn't have all the properties" });
 
         if (!(typeof title === 'string' &&
             typeof description === 'string' &&
@@ -118,17 +123,17 @@ const postProduct = async (req, res) => {
             typeof status === 'boolean' &&
             typeof category === 'string' &&
             Array.isArray(thumbnails)))
-            return res.status(400).send({ message: 'Tipo de propiedad invalida' })
+            return res.status(400).send({ message: 'type of property is not valid' })
 
         if (price < 0 || stock < 0) return res
             .status(400)
-            .send({ message: 'Producto y stock no pueden ser menores o iguales a cero' });
+            .send({ message: 'Product and stock cannot be values less than or equal to zero' });
 
         const result = await productService.addProductService(product)
 
         if (result.code === 11000) return res
             .status(400)
-            .send({ message: `Error coleccion de clave duplicada: ${result.keyValue.code}` });
+            .send({ message: `E11000 duplicate key error collection: ecommerce.products dup key code: ${result.keyValue.code}` });
 
         return res.status(201).send(result);
     }
@@ -145,9 +150,9 @@ const putProduct = async (req, res) => {
 
         const result = await productService.updateProductService(pid, product);
 
-        if (result.message) return res.status(404).send({ message: `ID: ${pid} no encontrado` })
+        if (result.message) return res.status(404).send({ message: `ID: ${pid} not found` })
 
-        return res.status(200).send(`Producto ${result.title} con ID: ${result._id} actualizado`);
+        return res.status(200).send(`The product ${result.title} whit ID: ${result._id} was updated`);
     }
     catch (err) {
         return err
@@ -159,10 +164,10 @@ const deleteProduct = async (req, res) => {
     try {
         const { pid } = req.params
         const result = await productService.deleteProductService(pid)
-        
-        if (!result) return res.status(404).send({ message: `ID: ${pid} no encontrado` })
 
-        return res.sendSuccess(`ID: ${pid} eliminado`);
+        if (!result) return res.status(404).send({ message: `ID: ${pid} not found` })
+
+        return res.sendSuccess(`ID: ${pid} was deleted`);
 
     } catch (err) {
         return res.internalError(err.message)

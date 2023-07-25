@@ -6,32 +6,32 @@ import cartsController from '../controllers/carts.controller.js';
 export default class CartsRouter extends BaseRouter {
     init() {
 
-        this.get('/usercarts', ['AUTH'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.getUserCarts)
-        // Devuelve un carrito
-        this.get('/:cid', ['AUTH'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.getCartId)
+        this.get('/usercarts', ['AUTH', 'USER'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.getUserCarts)
+        // ENDPOINT Que devuelve un carrito
+        this.get('/:cid', ['AUTH', 'USER'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.getCartId)
 
-        // Crea un carrito con o sin productos
-        this.post('/', ['AUTH'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.postCart)
+        // ENDPOINT para crear un carrito con o sin productos
+        this.post('/', ['AUTH', 'USER'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.postCart)
 
-        // Coloca la cantidad de un producto
-        this.post('/:cid/product/:pid', ['AUTH'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.postProductInCart)
-
-
-        // Actualiza la lista de productos 
-        this.put('/:cid', ['AUTH'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.putCart)
-
-        this.put('/:cid/product/:pid', ['AUTH'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.productInCart)
+        // ENDPOINT para colocar la cantidad de un producto
+        this.post('/:cid/product/:pid', ['AUTH', 'USER'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.postProductInCart)
 
 
-        // Elimina un producto dado
-        this.delete('/:cid/product/:pid', ['AUTH'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.deleteProductInCart)
+        // ENDPOINT que actualiza la lista de productos 
+        this.put('/:cid', ['AUTH', 'USER'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.putCart)
 
-        // Elimina todos los productos de un carrito
-        this.delete('/:cid', ['AUTH'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.deleteCart)
+        this.put('/:cid/product/:pid', ['AUTH', 'USER'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.productInCart)
+
+
+        // ENDPOINT que elimina un producto dado
+        this.delete('/:cid/product/:pid', ['AUTH', 'USER'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.deleteProductInCart)
+
+        // ENDPOINT que elimina todos los productos de un carrito
+        this.delete('/:cid', ['AUTH', 'USER'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.deleteCart)
         
-        // Revisa stock y realiza la compra.
+        // ENPOINT que chequea stock y realiza la compra.
 
-        this.post('/:cid/purchase', ['AUTH'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.purchaseCart)
+        this.post('/:cid/purchase', ['AUTH', 'USER'], passportCall('jwt', { strategyType: 'jwt' }), cartsController.purchaseCart)
 
 
     }

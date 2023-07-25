@@ -6,7 +6,7 @@ const url = config.mongoUrl
 const connectToDB = () => {
     try {
         mongoose.connect(url)
-        console.log('Conectado a la Base de Datos')
+        console.log('connected to DB')
     } catch (error) {
         console.log(error);
     }

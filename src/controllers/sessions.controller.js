@@ -2,23 +2,23 @@ import { generateToken } from '../config/config.jwt.js'
 
 const gitHubCallBack = (req, res) => {
     try {
-        console.log(req.user, 'Llama gitHubCallBack');
+        
         const user = {
             name: `${req.user.first_name} ${req.user.last_name}`,
             role: req.user.role,
             id: req.user.id,
             email: req.user.email,
-            cart: req.user.carts[0]
+            cart: req.user.carts
         }
-        console.log(user, 'Llama gitHubCallBack 0');
+        
 
         const access_token = generateToken(user)
         
-        return res.cookie('autenticacion', access_token, {
+        return res.cookie('authToken', access_token, {
             maxAge: 1000 * 60 * 60 * 24,
             httpOnly: true,
             
-        }).sendSuccessGitHub('Logueado')
+        }).sendSuccessGitHub('Login successful')
     } catch (error) {
         return res.sendInternalError(error);
     }
@@ -33,16 +33,16 @@ const loginPost = async (req, res) => {
             role: req.user.role,
             id: req.user.id,
             email: req.user.email,
-            cart: req.user.cart
+            cart: req.user.carts
         }
-        console.log(user)
+        
         const access_token = generateToken(user)
 
-        return res.cookie('autenticacion', access_token, {
+        return res.cookie('authToken', access_token, {
             maxAge: 1000 * 60 * 60 * 24,
             httpOnly: true,
             
-        }).sendSuccess('Logueado')
+        }).sendSuccessUser({userRole: user.role})
     } catch (error) {
         return res.sendInternalError(error);
     }
@@ -51,7 +51,7 @@ const loginPost = async (req, res) => {
 
 const registerPost = async (req, res) => {
     try {
-        res.sendSuccess('Usuario registrado')
+        res.sendSuccess('User registered successfully')
     } catch (error) {
         return res.sendInternalError(error);
     }
@@ -60,7 +60,7 @@ const registerPost = async (req, res) => {
 const postLogOut = (req, res) => {
 
     try {
-        return res.clearCookie('autenticacion').sendSuccess('Cierra Sesion')
+        return res.clearCookie('authToken').sendSuccess('logged out successfully')
     } catch (error) {
         return res.sendInternalError(error);
     }

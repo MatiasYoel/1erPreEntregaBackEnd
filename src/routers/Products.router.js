@@ -4,17 +4,25 @@ import productsController from '../controllers/products.controller.js';
 
 
 export default class ProductsRouter extends BaseRouter {
+    //http://localhost:8080/api/products?limit=2
     init() {
-        this.get('/', ['AUTH'], passportCall('jwt', {strategyType: 'jwt'}), passportCall('jwt', { strategyType: 'github' }), productsController.getProducts)
+        this.get('/', ['AUTH', 'ADMIN'], passportCall('jwt', {strategyType: 'jwt'}), passportCall('jwt', { strategyType: 'github' }), productsController.getProducts)
 
-        this.get('/:pid', ['AUTH'], passportCall('jwt', {strategyType: 'jwt'}), productsController.getProductId)
+        //http://localhost:8080/api/products/
+        this.get('/:pid', ['AUTH', 'ADMIN'], passportCall('jwt', {strategyType: 'jwt'}), productsController.getProductId)
 
-        this.post('/', ['AUTH'], passportCall('jwt', {strategyType: 'jwt'}), productsController.postProduct)
+        this.get('/:pid', ['ADMIN'], passportCall('jwt', {strategyType: 'jwt'}), productsController.getProductId)
 
-        this.put('/:pid', ['AUTH'], passportCall('jwt', {strategyType: 'jwt'}), productsController.putProduct)
+        //http://localhost:8080/api/products/
+        this.post('/', ['ADMIN'], passportCall('jwt', {strategyType: 'jwt'}), productsController.postProduct)
 
-        this.delete('/:pid', ['AUTH'], passportCall('jwt', {strategyType: 'jwt'}), productsController.deleteProduct)
+        this.put('/:pid', ['ADMIN'], passportCall('jwt', {strategyType: 'jwt'}), productsController.putProduct)
+
+        this.delete('/:pid', ['ADMIN'], passportCall('jwt', {strategyType: 'jwt'}), productsController.deleteProduct)
     }
 
 }
 
+
+
+// export default this

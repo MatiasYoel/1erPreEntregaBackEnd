@@ -14,9 +14,12 @@ const getTickets = async () => {
     try {
         response = await fetch('/api/ticket/' + uid)
         data = await response.json()
+        
         let tickets = ''
         if (data.payload.length > 0) {
             for (let ticket of data.payload) {
+                
+                
                 let purchase_time = formatDate(ticket.purchase_time)
 
                 tickets += `<div class="card my-2">

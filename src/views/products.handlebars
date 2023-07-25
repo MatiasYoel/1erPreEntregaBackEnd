@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container ">
     <header class="d-flex flex-column flex-md-row justify-content-between align-items-center">
     <div class="title text-center text-md-start">
     </div>
@@ -22,7 +22,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <div data-bs-dismiss="modal" id="modalFooter"></div>
                     </div>
                 </div>
             </div>
@@ -34,24 +34,24 @@
     <div class="row mt-4">
         {{#each products }}
         <div class="card bg-secondary mb-3 mx-4 my-4" style="max-width: 20rem;">
-            <div class="card-header">Codigo: {{this.code}}</div>
+            <div class="card-header">code: {{this.code}}</div>
             <div class="card-body">
                 <h4 class="card-title">{{this.title}}</h4>
                 <p class="card-text">
                     <li>
-                        Descripcion: {{this.description}}
+                        description: {{this.description}}
                     </li>
                     <li>
-                        Precio: ${{this.price}}
+                        price: ${{this.price}}
                     </li>
                     <li>
-                        Categoria: {{this.category}}
+                        category: {{this.category}}
                     </li>
                     <li>
-                        Estado: {{this.status}}
+                        status: {{this.status}}
                     </li>
                     <li>
-                        Stock: {{this.stock}}
+                        stock: {{this.stock}}
                     </li>
                     <li>
                         thumbnail: <img src="{{this.thumbnails}}" alt="" width="120" height="80">
@@ -78,7 +78,7 @@
 
         <a class="btn btn-primary px-5" href="{{nextLink}}">next</a>
 
-        <h3>Pagina: {{page}}/{{totalPages}}</h3>
+        <h3>Page: {{page}}/{{totalPages}}</h3>
         {{/if}}
     </div>
 

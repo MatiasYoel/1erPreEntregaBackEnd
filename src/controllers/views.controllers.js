@@ -72,6 +72,7 @@ const getProductsView = async (req, res) => {
 
         }
 
+        // Devuelve un array con las categorias disponibles y compara con la query "category"
         const categories = await productService.categoriesService()
 
         const result = categories.some(categ => categ === category)
@@ -92,6 +93,7 @@ const getProductsView = async (req, res) => {
         const { prevLink, nextLink } = links(products);
 
         if (page > totalPages) return res.render('notFound', { pageNotFound: '/products', isLoggedIn: req.user })
+        
         return res.render(
             'products',
             {
@@ -116,9 +118,10 @@ const getProductsView = async (req, res) => {
 
 const getProductsInCart = async (req, res) => {
     try {
+        
         const productsInCart = await cartService.getCartByIdService(req.user.cart)
-        console.log(productsInCart, 'getProductsInCart');
-        console.log(req.user.cart, 'getProductsInCart ID');
+        
+        
         if (!productsInCart) return res.send({cartLength: 0, productsInCart: []} )
         
         return res.send({ cartLength: productsInCart.products.length, productsInCart:productsInCart.products})
@@ -131,18 +134,21 @@ const getProductsInCart = async (req, res) => {
 
 const postProductsView = async (req, res) => {
     try {
-        console.log(req.user, 'postProducts');
+        
         const userId = req.user.id;
         const cartId = req.user.cart
         const { product } = req.body;
 
-        console.log(cartId);
+        
         if (product) {
             if (product.quantity > 0) {
+                
                 const updateCart = await cartService.addProductInCartService(cartId, product)
+                
+                // return res.send({ cartLength: updateCart.products.length, productsInCart:updateCart.products})
             }
             else {
-                return res.render('products', { message: 'La cantidad debe ser mayor que 0', })
+                return res.render('products', { message: 'Quantity must be greater than 0', })
             }
         }
 
@@ -169,8 +175,8 @@ const getCartIdView = async (req, res) => {
             subtotal_producto.push(prod)
 
         })
-        console.log(subtotal_producto);
-        if (result === null || typeof (result) === 'string') return res.render('cart', { result: false, message: 'ID no encontrado' });
+        
+        if (result === null || typeof (result) === 'string') return res.render('cart', { result: false, message: 'ID not found' });
 
         return res.render('cart', { result, isLoggedIn: req.user });
 
@@ -204,7 +210,7 @@ const getRegisterView = (req, res) => {
 const getProfileView = (req, res) => {
     try {
         delete req.user.password
-        console.log(req.user);
+        
         res.render('profile', { user: req.user, isLoggedIn: req.user })
 
     } catch (error) {
@@ -230,6 +236,7 @@ const getAllTicketView = (req, res) => {
         return res.render('allTickets', {isLoggedIn: logged, user: req.user});
     } catch (error) {
         return res.sendInternalError(error)
+        
     }
 }
 
@@ -246,6 +253,7 @@ const getAdminView = (req, res) => {
 const forbiddenView = (req, res) => {
     res.render('forbidden');
 }
+
 
 export default {
     getIndexView,

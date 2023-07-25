@@ -26,6 +26,7 @@ export default class BaseRouter {
 
     generateCustomResponses = (req, res, next) => {
         res.sendSuccess = message => res.send({ status: 'success', message });
+        res.sendSuccessUser = user => res.send({ status: 'success', user });
         res.sendSuccessWithPayload = payload => res.send({ status: 'success', payload });
         res.sendInternalError = error => res.status(500).send({ status: 'error', error });
         res.sendUnauthorized = error => res.status(400).send({ status: 'error', error });
@@ -39,14 +40,17 @@ export default class BaseRouter {
         return (req, res, next) => {
             if (policies[0] === "PUBLIC") return next();
             const user = req.user;
+            if ((policies[0] === "ADMIN" || policies[1] === 'ADMIN') && user?.role === 'ADMIN') return next()
             if (policies[0] === "LOGIN" && !user) return res.redirect('/login')
-            if (policies[0] === "LOGIN" && user) return next();
+            if (policies[0] === "LOGIN" && policies[1] === "USER" && user.role === 'user') return next()
             if (policies[0] === "GITHUB") return next();
-            if (policies[0] === "AUTH" && user) return next();
-            if (policies[0] === "AUTH" && !user) return res.status(401).send({ status: "error", error: "No autorizado,no existe el usuario" });
-            if (policies[0] === "NO_AUTH" && user) return res.status(401).send({ status: "error", error: "Ruoter no autorizado" });
+            if (policies[0] === "USER" || policies[1] === 'ADMIN') return next();
+            if (policies[0] === "AUTH" && policies[1] === ['USER'] && user) return next();
+            if (policies[0] === "AUTH" && !user) return res.status(401).send({ status: "error", error: "Unauthorized Router doesn't exist the user" });
+            if (policies[0] === "NO_AUTH" && user) return res.status(401).send({ status: "error", error: "Unauthorized Router" });
             if (policies[0] === "NO_AUTH" && !user) return next();
             if (!user) return res.status(401).send({ status: "error", error: req.error });
+            // if (!policies.includes(user.role.toUpperCase())) return res.status(403).send({ status: "error", error: "Forbidden" });            
             if (!policies.includes(user.role.toUpperCase())) {
                 if (req.headers.accept.includes('text/html')) {
                     

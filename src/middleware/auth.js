@@ -7,8 +7,8 @@ export const passportCall = (strategy,options={}) =>{
         passport.authenticate(strategy,(error,user,info)=>{
             if(error) return next(error);
             if(!options.strategyType){
-                console.log(`Ruta ${req.url} no tiene definido un tipo de estrategia`);
-                return res.sendInternalError(`Ruta ${req.url} no tiene definido un tipo de estrategia`);
+                console.log(`Route ${req.url} doesn't have defined a strategyType`);
+                return res.sendInternalError(`Route ${req.url} doesn't have defined a strategyType`);
             }
 
             if(!user) {
