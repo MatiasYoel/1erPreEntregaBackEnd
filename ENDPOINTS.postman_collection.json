@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "627109d1-123a-4c86-aecc-f5838f9b1d7e",
+		"_postman_id": "f0477049-ee72-4c5d-a29c-d33f6488f2b0",
 		"name": "ENDPOINTS",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21887172"
@@ -16,7 +16,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"Paleta\",\r\n    \"description\": \"Paletas oferta\",\r\n    \"price\": 200,\r\n    \"stock\": 320,\r\n    \"status\": true,\r\n    \"category\": \"Fiambreria\",\r\n    \"thumbnails\": [\r\n        \"img1\"\r\n    ]\r\n}",
+					"raw": "{\r\n    \"title\": \"Remera\",\r\n    \"description\": \"Remera Algodon\",\r\n    \"price\": 4500,\r\n    \"stock\": 30,\r\n    \"status\": true,\r\n    \"category\": \"Hombre\",\r\n    \"thumbnails\": [\r\n        \"img1\"\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -84,7 +84,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"title\": \"Soup - Knorr, Country Bean\",\r\n    \"description\": \"Stiffness of unspecified ankle, not elsewhere classified\",\r\n    \"price\": 2309.38,\r\n    \"code\": \"58fcdd3d-6ed5-41e2-fc8asdad\",\r\n    \"stock\": 228,\r\n    \"status\": true,\r\n    \"thumbnails\": [\r\n        \"http://dummyimage.com/102x100.png/5fa2dd/ffffff\"\r\n    ]\r\n}",
+					"raw": "{\r\n    \"title\": \"Vestido Largo\",\r\n    \"description\": \"Vestido Largo Fiesta\",\r\n    \"price\": 5600,\r\n    \"code\": \"234512\",\r\n    \"stock\": 38,\r\n    \"status\": true,\r\n    \"category\": \"Mujer\",\r\n    \"thumbnails\": [\r\n        \"\"\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -113,7 +113,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"title\": \"Pepsi retornable 1.5l\",\r\n        \"description\": \"Pepsi clásica\",\r\n        \"price\": 350,\r\n        \"thumbnail\": \"pepsi.jpg\",\r\n        \"stock\": 11  \r\n    }",
+					"raw": "{\r\n        \"title\": \"Gorra Niño\",\r\n        \"description\": \"Gorra Clasica\",\r\n        \"price\": 2800,\r\n        \"thumbnail\": \"\",\r\n        \"stock\": 45  \r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -167,7 +167,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n            \"nombre\": \"asd\",\r\n            \"email\": \"asdasdasd@mail.com\",\r\n            \"asunto\": \"asdasd\",\r\n            \"mensaje\": \"asdasd\"\r\n        }",
+					"raw": "{\r\n            \"nombre\": \"Gaston\",\r\n            \"email\": \"gaston@mail.com\",\r\n            \"asunto\": \"mi compra\",\r\n            \"mensaje\": \"Hola\"\r\n        }",
 					"options": {
 						"raw": {
 							"language": "json"
