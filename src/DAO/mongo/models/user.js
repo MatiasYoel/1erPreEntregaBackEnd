@@ -34,7 +34,27 @@ const schema = new mongoose.Schema({
     password: {
         type: String,
         required: false
-    }
+    },
+    documents: [
+        {
+            type: {
+                type: String,
+   
+            },
+            name: {
+                type: String,
+                required: true,
+            },
+            reference: {
+                type: String,
+                required: true,
+            }
+        },
+    ],
+    last_connection: {
+        type: Date,
+        default: Date.now,
+    },
 
 }, { timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' } }
 )

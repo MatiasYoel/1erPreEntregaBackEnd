@@ -36,7 +36,7 @@ app.use(cookieParser(config.cookieParserEnv));
 
 app.engine('handlebars', handlebars.engine());
 
-
+app.use('/uploads', express.static('uploads'));
 app.set('views', `${__dirname}/views`);
 app.set('partials', `${__dirname}/views/partials`);
 app.set('view engine', 'handlebars');
@@ -51,7 +51,7 @@ const swaggerOptions = {
     definition: {
         openapi: '3.0.1',
         info:{
-            title:'Tu Pilcha',
+            title:'Supermarket BBS',
             description: 'Documentation API'
         }
     },
@@ -82,12 +82,17 @@ app.get('/logger', (req, res) => {
 
 })
 
+
 app.use('/api/ticket', ticketRouter.getRouter())
 app.use('/api/session', sessionsRouter.getRouter());
 app.use('/api/products', productsRouter.getRouter());
 app.use('/api/carts', cartsRouter.getRouter());
 app.use('/api/users', usersRouter.getRouter());
 app.use('/', viewsRouter.getRouter());
+app.use((error, req, res, next) => {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  });
 app.use(notFoundMiddleware);
 
 
@@ -96,7 +101,8 @@ app.use(errorHandler);
 app.listen(PORT, () => {
     try {
         logger.debug(`Listening to the port ${PORT}\nAcceder a:`);
-        logger.debug(`\t1). ${URL}${PORT}/products`);
+        logger.debug(`\t1). ${URL}${PORT}/products`)
+        logger.debug(`\t2). ${URL}${PORT}`);
 
     }
     catch (err) {

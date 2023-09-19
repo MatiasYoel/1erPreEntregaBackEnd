@@ -8,7 +8,17 @@ btnChangeRole.addEventListener('click', function () {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ role: role.textContent })
     })
-        .then(response => response.json())
+        .then(response => {
+            if (response.status === 401) {
+                return (Swal.fire(
+                    'No Change role!',
+                    'Not authorized.',
+                    'error'
+                ))
+            }
+            return response.json();
+
+        })
         .then(data => {
             const h2 = document.createElement('h2');
             h2.textContent = 'Role change, you will be redirected'
@@ -23,5 +33,54 @@ btnChangeRole.addEventListener('click', function () {
             throw new Error(error);
         });
 });
+
+document.getElementById('btn-upload-profile-pic').addEventListener('click', () => {
+    uploadFile('profile', 'profilePictureInput');
+});
+
+document.getElementById('btn-upload-identification').addEventListener('click', () => {
+    uploadFile('document', 'identificationInput', 'dni');
+});
+
+document.getElementById('btn-upload-domicile-proof').addEventListener('click', () => {
+    uploadFile('document', 'domicileProofInput', 'domicilio');
+});
+
+document.getElementById('btn-upload-account-statement').addEventListener('click', () => {
+    uploadFile('document', 'accountStatementInput', 'cuenta');
+});
+
+function uploadFile(type, inputId, docType) {
+    const input = document.getElementById(inputId);
+    const file = input.files[0];
+
+    if (!file) {
+        alert('Please select a file first');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+    let url = `/api/users/${id.textContent}/documents?type=${type}`
+    if (docType) {
+        formData.append('docType', docType);
+        url += `&document_type=${docType}`
+    }
+    
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(data => {
+            
+            alert('File uploaded successfully');
+        })
+        .catch(error => {
+            console.error('Error uploading file:', error);
+            alert('Error uploading file');
+        });
+}
+
 
 
